@@ -15,4 +15,14 @@
 
 #endif // _WIN32, _WIN64
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+char **GetFileNames(const char *const dirName);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif // UTILS_H
