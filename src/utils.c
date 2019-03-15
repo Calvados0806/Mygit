@@ -32,10 +32,13 @@ char **GetFileNames(const char *const dirName, size_t *outFileCount)
 		} while (FindNextFile(handler, &fileInfo));
 
 		*outFileCount = fileCounter;
+		FindClose(handler);
 		return fileNames;
 	}
-	else
+	else {
+		FindClose(handler);
 		return NULL;
+	}
 #elif defined(__linux__) || defined(__unix__)
 
 
