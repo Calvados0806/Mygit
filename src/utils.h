@@ -19,7 +19,7 @@
 extern "C" {
 #endif
 
-char **GetFileNames(const char *const dirName);
+char **GetFileNames(const char *const dirName, size_t *outFileCount);
 
 #ifdef __cplusplus
 }
