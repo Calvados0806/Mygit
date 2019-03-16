@@ -31,7 +31,7 @@ char **GetFileNames(const char *const dirName, size_t *outFileCount)
 	*fileNames = (char *)malloc(MAX_PATH_LEN * elemCount * sizeof(char));
 
 	for (size_t i = 1; i < elemCount; i++) {
-		fileNames[i] = fileNames[i-1] + MAX_PATH;
+		fileNames[i] = fileNames[i-1] + MAX_PATH_LEN;
 	}
 #if defined(_WIN32) || defined(_WIN64)
 	HANDLE handler;
@@ -64,11 +64,12 @@ char **GetFileNames(const char *const dirName, size_t *outFileCount)
 			if (fileCounter == elemCount)
 				elemCount = Realloc(fileNames, elemCount);
 
-			if (strcmp(".", fileInfo.cFileName) != 0 && strcmp("..", fileInfo.cFileName) != 0)
+			if (strcmp(".", ent->d_name) != 0 && strcmp("..", ent->d_name) != 0)
 				strcpy(fileNames[fileCounter++], ent->d_name);
 		}
 		closedir(dir);
-		return NULL;
+		*outFileCount = fileCounter;
+		return fileNames;
 	}
 	else {
 		closedir(dir);
