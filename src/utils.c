@@ -10,6 +10,7 @@
 #elif defined(__linux__) || defined(__unix__)
 
 #include <linux/limits.h>
+#include <sys/stat.h>
 #define MAX_PATH_LEN _POSIX_PATH_MAX 
 
 #endif // _WIN32, _WIN64
@@ -87,4 +88,25 @@ char **GetFileNames(const char *const dirName, size_t *outFileCount)
 		return NULL;
 	}
 #endif // _WIN32, _WIN64
+}
+
+int IsDirectory(const char *const path)
+{
+#if defined(_WIN32) || defined(_WIN64)
+	HANDLE handler;
+	WIN32_FIND_DATA fileInfo;
+
+	handler = FindFirstFile(TEXT(path), &fileInfo);
+	if (handler != INVALID_HANDLE_VALUE)
+		return fileInfo.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY;
+	return -1;
+#elif defined(__linux__) || defined(__unix__)
+	struct stat stBuff;
+	int status;
+
+	status = stat(path, &stBuff);
+	if (status != 0)
+		return -1;
+	return S_ISDIR(stBuff.st_mode);
+#endif
 }

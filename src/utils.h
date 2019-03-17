@@ -21,6 +21,8 @@ extern "C" {
 
 char **GetFileNames(const char *const dirName, size_t *outFileCount);
 
+int IsDirectory(const char *const path);
+
 #ifdef __cplusplus
 }
 #endif
