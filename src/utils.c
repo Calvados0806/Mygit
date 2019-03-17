@@ -14,13 +14,24 @@
 
 #endif // _WIN32, _WIN64
 
-static size_t Realloc(char **src, size_t nElems)
+static char **Realloc(char **src, size_t nElems, size_t *outNewNelems)
 {
-	char **newBuff = (char **)malloc((size_t)(nElems * 1.68) * sizeof(char *));
-	memcpy(src, newBuff, sizeof(char *) * nElems);
+	size_t newSize = (size_t)(nElems * 1.68);
+	char **newBuff = (char **)malloc(newSize * sizeof(char *));
+	memcpy(newBuff, src, sizeof(char *) * nElems);
 	free(src);
-	src = newBuff;
-	return (size_t)(nElems * 1.68);
+
+	char *newContentBuff = (char *)malloc(MAX_PATH_LEN * newSize * sizeof(char));
+	memcpy(newContentBuff, *newBuff, MAX_PATH_LEN * nElems * sizeof(char));
+	free(*newBuff);
+	*newBuff = newContentBuff;
+
+	for (size_t i = 1; i < newSize; i++) {
+		newBuff[i] = newBuff[i - 1] + MAX_PATH_LEN;
+	}
+
+	*outNewNelems = newSize;
+	return newBuff;
 }
 
 
@@ -41,7 +52,7 @@ char **GetFileNames(const char *const dirName, size_t *outFileCount)
 	if (handler != INVALID_HANDLE_VALUE) {
 		do {
 			if (fileCounter == elemCount)
-				elemCount = Realloc(fileNames, elemCount);
+				fileNames = Realloc(fileNames, elemCount, &elemCount);
 
 			if (strcmp(".", fileInfo.cFileName) != 0 && strcmp("..", fileInfo.cFileName) != 0)
 				strcpy_s(fileNames[fileCounter++], MAX_PATH, fileInfo.cFileName);
