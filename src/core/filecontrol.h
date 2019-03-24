@@ -8,12 +8,11 @@ extern "C" {
 #endif
 
 #define CREATE_FILE		0x1
-#define CREATE_FOLDER   0x2
-#define EX_NO_CREATE	0x4
+#define CREATE_FOLDER	0x2
 
 int Create(const char *const path, int flags);
 
-int Delete(const char *const path);
+int Delete(const char *const path, int flags);
 
 #ifdef __cplusplus
 }

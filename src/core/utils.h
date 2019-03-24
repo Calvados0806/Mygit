@@ -11,6 +11,7 @@
 #include <dirent.h>
 #include <linux/limits.h>
 #include <sys/stat.h>
+#include <fcntl.h>
 #define MAX_PATH_LEN _POSIX_PATH_MAX 
 
 #else
