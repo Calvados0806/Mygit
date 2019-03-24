@@ -12,6 +12,7 @@
 #include <linux/limits.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <unistd.h>
 #define MAX_PATH_LEN _POSIX_PATH_MAX 
 
 #else

@@ -5,9 +5,9 @@
 
 int Create(const char *const path, int flags)
 {
-	if (flags ^ (CREATE_FILE | CREATE_FOLDER)) {
+	if (flags ^ (FILE | FOLDER)) {
 #if defined(_WIN32) || defined(_WIN64)
-		if (flags & CREATE_FILE)
+		if (flags & FILE)
 			return CreateFile(
 				path, 
 				GENERIC_READ | GENERIC_WRITE, 
@@ -15,20 +15,43 @@ int Create(const char *const path, int flags)
 				CREATE_ALWAYS, 
 				FILE_ATTRIBUTE_NORMAL, NULL
 			) != INVALID_HANDLE_VALUE;
-		else if (flags & CREATE_FOLDER)
+		else if (flags & FOLDER)
 			return CreateDirectory(path, NULL);
 		else
 			return 0;
 #elif defined(__linux__) || defined(__unix__)
-		if (flags & CREATE_FILE)
+		if (flags & FILE)
 			return creat(path, FPERMS) != -1;
-		else if (flags & CREATE_FOLDER)
+		else if (flags & FOLDER)
 			return mkdir(path, DPERMS) != -1;
 		else
 			return 0;
 #endif // _WIN32, _WIN64
 	}
-	// CREATE_FILE and CREATE_FOLDER was set at the same time
+	// FILE and FOLDER was set at the same time
 	// Error
+	return 0;
+}
+
+int Delete(const char *const path, int flags)
+{
+	if (flags ^ (FILE | FOLDER)) {
+#if defined(_WIN32) || defined(_WIN64)
+		if (flags & FILE)
+			return DeleteFile(path);
+		else if (flags & FOLDER)
+			return RemoveDirectory(path);
+		else
+			return 0;
+#elif defined(__linux__) || defined(__unix__)
+		if (flags & FILE)
+			return unlink(path) != -1;
+		else if (flags & FOLDER)
+			return rmdir(path) != -1;
+		else
+			return 0;
+#endif
+	}
+
 	return 0;
 }
