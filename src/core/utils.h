@@ -21,4 +21,16 @@
 
 #endif // _WIN32, _WIN64
 
+#ifdef __cplusplus
+
+#define MYGIT_HEADER_BEGIN extern "C" {
+#define MYGIT_HEADER_END }
+
+#else
+
+#define MYGIT_HEADER_BEGIN
+#define MYGIT_HEADER_END
+
+#endif // __cplusplus
+
 #endif // UTILS_H

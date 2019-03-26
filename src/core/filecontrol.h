@@ -3,9 +3,7 @@
 
 #include "utils.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+MYGIT_HEADER_BEGIN
 
 #define FILE	0x1
 #define FOLDER	0x2
@@ -14,8 +12,6 @@ int Create(const char *const path, int flags);
 
 int Delete(const char *const path, int flags);
 
-#ifdef __cplusplus
-}
-#endif
+MYGIT_HEADER_END
 
 #endif // FILECONTROL_H

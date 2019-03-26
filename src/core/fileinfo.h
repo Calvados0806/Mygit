@@ -3,15 +3,13 @@
 
 #include "utils.h"
 
+MYGIT_HEADER_BEGIN
+
 struct DirInfo {
 	int Amount;
 	int Capacity;
 	char (*Names)[MAX_PATH_LEN];
 };
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 void FreeDirInfo(struct DirInfo *obj);
 
@@ -21,8 +19,6 @@ struct DirInfo *GetFileNames(const char *const path);
 
 int IsDirectory(const char *const path);
 
-#ifdef __cplusplus
-}
-#endif
+MYGIT_HEADER_END
 
 #endif // FILEINFO_H
