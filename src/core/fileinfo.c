@@ -8,36 +8,23 @@ static void InitDirInfo(struct DirInfo *obj)
 {
 	obj->Amount = 0;
 	obj->Capacity = 10;
-	obj->Names = (char **)malloc(sizeof(char **) * obj->Capacity);
-	*(obj->Names) = (char *)malloc(sizeof(char[MAX_PATH_LEN]) * obj->Capacity);
-
-	for (int i = 1; i < obj->Capacity; i++)
-		obj->Names[i] = obj->Names[i - 1] + MAX_PATH_LEN;
+	obj->Names = (char(*)[MAX_PATH_LEN])malloc(sizeof(char[MAX_PATH_LEN]) * obj->Capacity);
 }
 
 
 static void Realloc(struct DirInfo *obj)
 {
 	int newSize = (int)(obj->Capacity * 1.68);
-	char **newBuff = (char **)malloc(sizeof(char **) * newSize);
-	memcpy(newBuff, obj->Names, sizeof(char **) * obj->Capacity);
+	char (*newBuff)[MAX_PATH_LEN] = (char(*)[MAX_PATH_LEN])malloc(sizeof(char[MAX_PATH_LEN]) * newSize);
+	memcpy(newBuff, obj->Names, sizeof(char[MAX_PATH_LEN])*obj->Amount);
 	free(obj->Names);
 	obj->Names = newBuff;
-
-	char *newContentBuff = (char *)malloc(sizeof(char[MAX_PATH_LEN]) * newSize);
-	memcpy(newContentBuff, *(obj->Names), sizeof(char[MAX_PATH_LEN]) * obj->Capacity);
-	free(*(obj->Names));
-	*(obj->Names) = newContentBuff;
-
-	for (int i = 1; i < newSize; i++)
-		obj->Names[i] = obj->Names[i - 1] + MAX_PATH_LEN;
 	obj->Capacity = newSize;
 }
 
 
 void FreeDirInfo(struct DirInfo *obj)
 {
-	free(*(obj->Names));
 	free(obj->Names);
 	free(obj);
 }
@@ -67,7 +54,7 @@ struct DirInfo *GetFileNames(const char *const path)
 				Realloc(info);
 
 			if (strcmp(".", fileInfo.cFileName) != 0 && strcmp("..", fileInfo.cFileName) != 0)
-				strcpy_s(info->Names[info->Amount++], MAX_PATH_LEN, fileInfo.cFileName);
+				strcpy(info->Names[info->Amount++], fileInfo.cFileName);
 		} while (FindNextFile(handler, &fileInfo));
 
 		FindClose(handler);

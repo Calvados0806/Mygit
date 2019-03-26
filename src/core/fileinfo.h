@@ -6,7 +6,7 @@
 struct DirInfo {
 	int Amount;
 	int Capacity;
-	char **Names;
+	char (*Names)[MAX_PATH_LEN];
 };
 
 #ifdef __cplusplus
