@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include <inttypes.h>
 
+
+#define LeftRot(x, n) ((x) << (n)) | ((x) & (~0 << sizeof(x)*8-(n))) >> sizeof(x)*8-(n)
+
 typedef struct _uint160 {
 	uint32_t bitBuff[5];
 } uint160_t;
