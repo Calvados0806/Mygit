@@ -1,7 +1,7 @@
 #ifndef FILECONTROL_H
 #define FILECONTROL_H
 
-#include "utils.h"
+#include "../utils.h"
 
 MYGIT_HEADER_BEGIN
 

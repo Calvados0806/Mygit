@@ -1,7 +1,7 @@
 #ifndef FILEINFO_H
 #define FILEINFO_H
 
-#include "utils.h"
+#include "../utils.h"
 
 MYGIT_HEADER_BEGIN
 

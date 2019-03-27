@@ -1,4 +1,4 @@
-#include "filecontrol.h"
+#include "control.h"
 
 #define FPERMS 0644 // -rw-r--r--
 #define DPERMS 0755 // drwxr-xr-x
