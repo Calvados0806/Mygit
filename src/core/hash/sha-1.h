@@ -3,9 +3,17 @@
 
 #include "../utils.h"
 
+#include <inttypes.h>
+
 MYGIT_HEADER_BEGIN
 
-char *GetHashCode(const char *const data);
+typedef struct _uint160 {
+	uint32_t bitBuff[5];
+} uint160_t;
+
+char *itohex(uint160_t val);
+
+uint160_t GetHashCode(const char *const data);
 
 MYGIT_HEADER_END
 

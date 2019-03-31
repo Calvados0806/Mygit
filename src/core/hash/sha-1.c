@@ -1,16 +1,11 @@
 #include "sha-1.h"
 
 #include <stdlib.h>
-#include <inttypes.h>
 
 
 #define LeftRot(x, n) (((x) << (n)) | ((x) & (~0 << sizeof(x)*8-(n))) >> sizeof(x)*8-(n))
 
-typedef struct _uint160 {
-	uint32_t bitBuff[5];
-} uint160_t;
-
-static char *itohex(uint160_t val)
+char *itohex(uint160_t val)
 {
 	static char symTable[17] = "0123456789abcdef";
 	static uint32_t masks[8] = {
@@ -32,7 +27,7 @@ static char *itohex(uint160_t val)
 	return res;
 }
 
-char *GetHashCode(const char *const data)
+uint160_t GetHashCode(const char *const data)
 {
 	typedef uint64_t bitbuff512[8];
 
@@ -106,5 +101,5 @@ char *GetHashCode(const char *const data)
 	memcpy(&retVal.bitBuff, hashes, sizeof hashes);
 
 	free(extendBuff);
-	return itohex(retVal);
+	return retVal;
 }
