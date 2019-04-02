@@ -107,3 +107,9 @@ int IsDirectory(const char *const path)
 	return -1;
 #endif
 }
+
+const char *GetCurrWorkDir()
+{
+	static char cwd[MAX_PATH_LEN];
+	return __getcwd(cwd, MAX_PATH_LEN);
+}

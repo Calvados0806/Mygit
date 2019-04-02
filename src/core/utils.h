@@ -4,7 +4,9 @@
 #if defined(_WIN32) || defined(_WIN64)
 
 #include <Windows.h>
+#include <direct.h>
 #define MAX_PATH_LEN MAX_PATH
+#define __getcwd _getcwd
 
 #elif defined(__linux__) || defined(__unix__)
 
@@ -14,6 +16,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #define MAX_PATH_LEN _POSIX_PATH_MAX 
+#define __getcwd getcwd
 
 #else
 

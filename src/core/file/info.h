@@ -19,6 +19,8 @@ struct DirInfo *GetFileNames(const char *const path);
 
 int IsDirectory(const char *const path);
 
+const char *GetCurrWorkDir();
+
 MYGIT_HEADER_END
 
 #endif // FILEINFO_H
